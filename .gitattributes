@@ -1,0 +1,2 @@
+models/base/*.osim -text
+models/base/Geometry/*.vtp -text

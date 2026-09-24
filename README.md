@@ -10,7 +10,9 @@
 - 浏览器：`personal.js`、`video-sync.js`、`tendon-scale.js`，支持记录搜索、左右手切换、视频视角、停止等待以及逐通道缩放结果。
 - 只保存轻量缩放方案及显示缓存，不为每人永久保存一份 XML。
 
-完整安装、模型要求、数据字段与缩放边界见 [缩放与运行指南](docs/scaling-runtime.md)。原始 RRD、视频、个人结果、SSH 凭据、基础 `.osim` 与配套几何均不在仓库中，需自行准备有权使用的文件。没有私人运行环境时，个人模式不会产生真实样本结果。
+同事接手请先看 [交接说明](docs/HANDOFF.md)，完整安装、数据字段与缩放边界见 [缩放与运行指南](docs/scaling-runtime.md)。左右手基准 `.osim` 和 33 份配套几何已放在 [models/base](models/base)，保留原文件及其使用限制，详见 [模型说明](models/README.md)。运行 `python3 scripts/setup-models.py` 可校验基准。
+
+当前数据入口是服务器指定目录，尚未实现网页文件上传按钮和上传接口。原始 RRD、视频、个人结果及 SSH 凭据不在仓库中，需自行准备有权使用的数据及运行环境。
 
 ## 保留的旧版演示
 

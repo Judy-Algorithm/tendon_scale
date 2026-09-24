@@ -6,7 +6,13 @@
 左手基准：`Hand_Wrist_Model_LEFT_GlobalX180.osim`，SHA-256 `45c45732788afd4fcc78b89c97cf7a5da51de82dcb735d480459ee4e8770207b`。
 `personalize.py` 还保留历史个性化模型的摘要白名单。其他模型不能仅改文件名接入，必须重新核对关节、几何及路径适配。
 
-将有权使用的 XML 及它引用的几何放在运行目录 `base/`，保持模型引用的相对路径。原始模型和几何未随此仓库重新分发；模型许可与来源由资产提供方决定。
+仓库 `models/base/` 已包含上述两份原始 XML 和 33 份配套几何。原文件版权与使用限制保持不变，见 [模型说明](../models/README.md)。左手原文件缺少 Ground 胸廓网格，现有 `left_adapter.py` 在运行时处理，不修改原始 XML。
+
+启动前校验并复制到私人运行目录，路径需替换为自己的实际目录：
+
+```sh
+python3 scripts/setup-models.py --runtime /absolute/path/runtime
+```
 
 - 网页：Node.js 20 或更高版本，无构建步骤；Three.js 已附带许可。
 - 解算环境：OpenSim 4.5.2 Python 绑定、NumPy、SciPy；建议使用已有兼容 OpenSim 环境。
@@ -25,7 +31,7 @@ TENDON_SOLVER_PYTHON=/absolute/path/opensim-env/bin/python \
 python3 server/all_service.py
 ```
 
-服务固定监听 `127.0.0.1:8770`，按需扫描指定目录内全部 RRD。新部署全部使用稳定的 `record-` ID，不依赖以前的六条私人样本服务。首次选择才抽取、转码和解算；单工作队列最多等待八项，单个子进程限时十五分钟。
+服务固定监听 `127.0.0.1:8770`，启动时扫描指定目录内全部 RRD；新增文件后需重启服务。当前没有网页上传接口。新部署全部使用稳定的 `record-` ID，不依赖以前的六条私人样本服务。首次选择才抽取、转码和解算；单工作队列最多等待八项，单个子进程限时十五分钟。
 
 同机运行网页：
 
@@ -68,7 +74,7 @@ RRD 读取器目前限定已适配结构，不自动猜测单位或左右手顺�
 7. 拟合二十个手指坐标与整体手部位姿，导出骨骼变换和 OpenSim 求得的绕行路径。缺少前臂参考，不能把腕角当作实测。
 8. `dynamicsReady=false`。运动可视化通过不等于动力学、肌力、碰撞或解剖精度验证。未实现外力提取、37 肌肉映射或 QP。
 
-默认拟合 30–42 秒；短记录从开始取最多十二秒，不足两秒拒绝处理。缓存位于运行目录 `cache/all-records/<代码摘要>/<记录ID>/`；模型、数据与缓存必须留在私人环境。
+默认拟合 30–42 秒；短记录从开始取最多十二秒，不足两秒拒绝处理。缓存位于运行目录 `cache/all-records/<代码摘要>/<记录ID>/`；个人数据与结果缓存必须留在私人环境。
 
 ## 检查
 
@@ -78,4 +84,4 @@ cd server
 python3 -m unittest test_all_catalog test_recording_catalog test_scaling test_palm -v
 ```
 
-需要 OpenSim、基础模型和私有样本的集成测试不能由空仓库独立运行。旧样本测试用于历史回归，不代表所有导入记录均已验证。
+基础模型已随仓库提供；完整集成测试仍需安装 OpenSim 并准备对应私有样本。旧样本测试用于历史回归，不代表所有导入记录均已验证。
