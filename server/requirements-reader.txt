@@ -1,0 +1,4 @@
+rerun-sdk==0.33.1
+numpy>=2,<3
+pyarrow>=18
+imageio-ffmpeg==0.6.0
